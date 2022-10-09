@@ -3,8 +3,3 @@ aiohttp[speedups]
 git+https://github.com/dolfies/discord.py-self
 GitPython
 pypresence
-
-# API
-fastapi>=0.78.0
-starlette~=0.19.1
-uvicorn[standard]~=0.17.6

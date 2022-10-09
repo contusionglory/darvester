@@ -28,30 +28,6 @@ module.exports = {
             });
         })
     },
-    startApi: () => {
-        const main_window = BrowserWindow.getAllWindows()[0];
-        pm2.connect((err) => {
-            if (err) {
-                console.error(err);
-                main_window.webContents.send('processes:api-status', {error: true, message: err});
-            }
-            
-            pm2.start({
-                script: path.join(__dirname, '..', '..', 'py-darvester-api', 'main.py'),
-                name: 'darvester-api',
-                cwd: path.join(getConfigKey('userData'), 'python'),
-                args: '--db ' + path.join(getConfigKey('userData'), 'harvested.db'),
-                interpreter: path.join(getConfigKey('pythonEnv'), 'bin', 'python'),
-            }, (err, proc) => {
-                if (err) {
-                    console.error(err);
-                    pm2.disconnect();
-                    main_window.webContents.send('processes:api-status', {error: true, message: err});
-                }
-                main_window.webContents.send('processes:api-status', {error: false, message: proc});
-            })
-        })
-    },
     getStatus: () => {
         const main_window = BrowserWindow.getAllWindows()[0];
         pm2.connect((err) => {

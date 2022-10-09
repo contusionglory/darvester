@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { getFirstRun, getConfigKey, getConfig, writeConfigKey } = require('./src/config');
 const { askPythonVersion, createPythonVenv, installPythonRequirements } = require('./src/utils');
-const { startCore, startApi, getStatus, describeProcess, sendSigInt } = require('./src/processes');
+const { startCore, getStatus, describeProcess, sendSigInt } = require('./src/processes');
 const path = require('path');
 
 // Register handlers for ipcMain events
@@ -16,7 +16,6 @@ ipcMain.handle('config:write-config-key', (e, key, value) => writeConfigKey(key,
 ipcMain.handle('config:install-pip-deps', (e, venvPath) => {installPythonRequirements(venvPath)})
 // processes
 ipcMain.handle('processes:start-core', startCore);
-ipcMain.handle('processes:start-api', startApi);
 ipcMain.handle('processes:get-status', getStatus);
 ipcMain.handle('processes:describe-status', (e, processName) => describeProcess(processName));
 ipcMain.handle('processes:send-sigint', (e, processName) => sendSigInt(processName));

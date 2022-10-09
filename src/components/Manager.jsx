@@ -6,10 +6,6 @@ import {
     Typography,
     Fade,
     Grow,
-    Zoom,
-    CircularProgress,
-    Slide,
-    Fab
 } from '@mui/material';
 
 import StatusIndicator from './Status';
@@ -25,11 +21,6 @@ export default function Manager() {
     }, []);
 
     const [coreStatus, setCoreStatus] = React.useState({
-        changing: false,
-        status: 'offline'
-    });
-
-    const [apiStatus, setapiStatus] = React.useState({
         changing: false,
         status: 'offline'
     });
@@ -54,19 +45,12 @@ export default function Manager() {
                 return
             }
             status.message.filter((proc) => {
-                return ["davester-api", "darvester-core"].includes(proc.name);
+                return proc.name === "darvester-core";
             }).forEach(element => {
-                if (element.name === "darvester-core") {
-                    setCoreStatus({
-                        changing: ["stopping", "launching"].includes(element.pm2_env.status),
-                        status: parseStatus(status)
-                    });
-                } else if (element.name === "darvester-api") {
-                    setapiStatus({
-                        changing: ["stopping", "launching"].includes(element.pm2_env.status),
-                        status: parseStatus(status)
-                    });
-                }
+                setCoreStatus({
+                    changing: ["stopping", "launching"].includes(element.pm2_env.status),
+                    status: parseStatus(status)
+                });
             });
         }
     );
@@ -110,31 +94,6 @@ export default function Manager() {
                                 });
                             });
                         }}>Start</Button>
-                        <Button variant="outlined" sx={{ margin: '8px 12px -4px'}}>Stop</Button>
-                    </Box>
-                </Box>
-            </Box></Fade></Grow>
-            <Grow in={isMounted} timeout={1500} style={{ transformOrigin: '0 0 0' }}><Fade in={isMounted} timeout={1200}><Box sx={{
-                margin: '20px',
-                padding: '20px',
-                backgroundColor: '#444444',
-                borderRadius: '6px',
-                width: 'fit-content',
-                minWidth: '300px',
-            }}>
-                <Box>
-                    <Typography variant="h5">Darvester (API)<StatusIndicator status={apiStatus.status} style={{
-                        position: 'relative',
-                        top: 0,
-                        left: 0,
-                        transform: 'none',
-                        border: 'none',
-                        margin: '4px',
-                        marginRight: '12px'
-                        }} /></Typography>
-                    <Typography variant="body1"><i>Status:</i> {apiStatus.status}</Typography>
-                    <Box component="div" sx={{ display: 'inline', padding: '12px', textAlign: 'center' }}>
-                        <Button variant="outlined" sx={{ margin: '8px 12px -4px'}}>Start</Button>
                         <Button variant="outlined" sx={{ margin: '8px 12px -4px'}}>Stop</Button>
                     </Box>
                 </Box>
