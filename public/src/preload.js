@@ -14,12 +14,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onVenvStatus: (callback) => ipcRenderer.on('utils:venv-status', callback),
     // Processes
     startCore: () => ipcRenderer.invoke('processes:start-core'),
-    startApi: () => ipcRenderer.invoke('processes:start-api'),
     getStatus: () => ipcRenderer.invoke('processes:get-status'),
     describeProcess: (processName) => ipcRenderer.invoke('processes:describe-status', processName),
     sendSigInt: (processName) => ipcRenderer.invoke('processes:send-sigint', processName),
     onGetStatus: (callback) => ipcRenderer.on('processes:get-status-message', callback),
     onDescribeStatus: (callback) => ipcRenderer.on('processes:get-describe-status', callback),
     onCoreStatus: (callback) => ipcRenderer.on('processes:core-status', callback),
-    onApiStatus: (callback) => ipcRenderer.on('processes:api-status', callback),
 });
